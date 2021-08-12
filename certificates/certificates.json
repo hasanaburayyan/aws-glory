@@ -1,45 +1,45 @@
 [
   {
-    "Name": "Cloud Practitioner"
+    "CertificateName": "Cloud Practitioner"
   },
   {
-    "Name": "Developer",
+    "CertificateName": "Developer",
     "Level": "Associate"
   },
   {
-    "Name": "SysOps Administrator",
+    "CertificateName": "SysOps Administrator",
     "Level": "Associate"
   },
   {
-    "Name": "Solutions Architect",
+    "CertificateName": "Solutions Architect",
     "Level": "Associate"
   },
   {
-    "Name": "DevOps Engineer",
+    "CertificateName": "DevOps Engineer",
     "Level": "Professional"
   },
   {
-    "Name": "Solutions Architect",
+    "CertificateName": "Solutions Architect",
     "Level": "Professional"
   },
   {
-    "Name": "Advanced Networking",
+    "CertificateName": "Advanced Networking",
     "Level": "Specialty"
   },
   {
-    "Name": "Database",
+    "CertificateName": "Database",
     "Level": "Specialty"
   },
   {
-    "Name": "Security",
+    "CertificateName": "Security",
     "Level": "Specialty"
   },
   {
-    "Name": "Data Analytics",
+    "CertificateName": "Data Analytics",
     "Level": "Specialty"
   },
   {
-    "Name": "Machine Learning",
+    "CertificateName": "Machine Learning",
     "Level": "Specialty"
   }
 ]

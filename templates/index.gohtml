@@ -428,7 +428,7 @@ page-break-inside: avoid;
                             </div>
                         </td>
                         {{range $participant := $participants}}
-                        <td colwidth="[190]" inversiontype="smart" style="--border-color-lightmode:#ccc;--border-color-darkmode:#737373;--text-color-lightmode:#333;--text-color-darkmode:#ffffff;{{if $participant.HasCertificate $cert}}background: #0e753d{{end}}">
+                        <td colwidth="[190]" inversiontype="smart" style="--border-color-lightmode:#ccc;--border-color-darkmode:#737373;--text-color-lightmode:#333;--text-color-darkmode:#ffffff;{{if $participant.HasCertificate $cert}}background: #0e753d; {{else if $participant.InProgress $cert}}background: #d6e627;{{end}}">
                             <div class="para">
                                 <br>
                             </div>

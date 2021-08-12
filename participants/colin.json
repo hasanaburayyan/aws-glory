@@ -1,6 +1,18 @@
 {
   "Name": "Colin Moran",
-  "Certs": [
-    "AWS Certified Cloud Practitioner"
+  "Certificates": [
+    {
+      "Certificate": {
+        "CertificateName": "Cloud Practitioner"
+      },
+      "Status": "Completed"
+    },
+    {
+      "Certificate": {
+        "CertificateName": "Solutions Architect",
+        "Level": "Associate"
+      },
+      "Status": "In Progress"
+    }
   ]
 }

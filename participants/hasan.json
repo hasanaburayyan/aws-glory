@@ -1,6 +1,18 @@
 {
   "Name": "Hasan Abu-Rayyan",
-  "Certs": [
-    "Cloud Practitioner"
+  "Certificates": [
+    {
+      "Certificate": {
+        "CertificateName": "Cloud Practitioner"
+      },
+      "Status": "Completed"
+    },
+    {
+      "Certificate": {
+        "CertificateName": "Developer",
+        "Level": "Associate"
+      },
+      "Status": "In Progress"
+    }
   ]
 }

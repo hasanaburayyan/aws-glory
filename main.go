@@ -1,23 +1,28 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"encoding/json"
 	"os"
 )
 
 type Participant struct {
 	Name string `json:"Name"`
-	Certs []string `json:"Certs"`
+	Certs []AttemptedCert `json:"Certificates"`
+}
+
+type AttemptedCert struct {
+	Cert Certificate `json:"Certificate"`
+	Status string `json:"Status"`
 }
 
 type Certificate struct {
-	Name string
-	Level string
+	Name string `json:"CertificateName"`
+	Level string `json:"Level"`
 }
 
 type GloryData struct {
@@ -27,7 +32,17 @@ type GloryData struct {
 
 func (p Participant) HasCertificate(certificate Certificate) bool {
 	for _, cert := range p.Certs {
-		if cert == certificate.Name {
+		if cert.Cert.Name == certificate.Name && cert.Status == "Completed" {
+
+			return true
+		}
+	}
+	return false
+}
+
+func (p Participant) InProgress(certificate Certificate) bool {
+	for _, cert := range p.Certs {
+		if cert.Cert.Name == certificate.Name && cert.Status == "In Progress" {
 			return true
 		}
 	}
@@ -35,32 +50,8 @@ func (p Participant) HasCertificate(certificate Certificate) bool {
 }
 
 func main() {
-	var participants []Participant
-	certificates := []Certificate{
-		{Name: "Cloud Practitioner"},
-		{Name: "Developer", Level: "Associate"},
-		{Name: "SysOps Administrator", Level: "Associate"},
-		{Name: "Solutions Architect", Level: "Associate"},
-		{Name: "DevOps Engineer", Level: "Professional"},
-		{Name: "Solutions Architect", Level: "Professional"},
-		{Name: "Advanced Networking", Level: "Specialty"},
-		{Name: "Database", Level: "Specialty"},
-		{Name: "Security", Level: "Specialty"},
-		{Name: "Data Analytics", Level: "Specialty"},
-		{Name: "Machine Learning", Level: "Specialty"},
-	}
-
-	files, err := ioutil.ReadDir("participants")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, f := range files {
-		participant := readParticipantFile(fmt.Sprintf("participants/%s", f.Name()))
-		fmt.Printf("Adding Participant: %s\n", participant.Name)
-		participants = append(participants, participant)
-	}
-
+	participants := getParticipants("participants")
+	certificates := getCertificates("certificates")
 
 	gloryData:= GloryData{
 		Participants: participants,
@@ -80,18 +71,62 @@ func main() {
 }
 
 
-func readParticipantFile(fName string) Participant {
-	jsonFile, err := os.Open(fName)
+func getParticipants(participantDirectory string) []Participant {
+	var participants []Participant
+
+	files, err := ioutil.ReadDir(participantDirectory)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
+	}
+
+	for _, f := range files {
+		participant := readParticipantFile(fmt.Sprintf("%s/%s", participantDirectory, f.Name()))
+		log.Printf("Adding Participant: %s\n", participant.Name)
+		participants = append(participants, participant)
+	}
+
+	return participants
+}
+
+func getCertificates(certificateDirectory string) []Certificate {
+	var certificates []Certificate
+
+	files, err := ioutil.ReadDir(certificateDirectory)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, f := range files {
+		certificate := readCertificateFile(fmt.Sprintf("%s/%s", certificateDirectory, f.Name()))
+		certificates = append(certificates, certificate...)
+	}
+
+	return certificates
+}
+
+func readParticipantFile(fileName string) Participant {
+	var participant Participant
+
+	json.Unmarshal(getJsonBytesFromFile(fileName), &participant)
+
+	return  participant
+}
+
+func readCertificateFile(fileName string) []Certificate {
+	var certificate []Certificate
+
+	json.Unmarshal(getJsonBytesFromFile(fileName), &certificate)
+
+	return  certificate
+}
+
+func getJsonBytesFromFile(fileName string) []byte {
+	jsonFile, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
 	}
 	defer jsonFile.Close()
 
-	bytValue, _ := ioutil.ReadAll(jsonFile)
-
-	var participant Participant
-
-	json.Unmarshal(bytValue, &participant)
-
-	return  participant
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	return byteValue
 }
