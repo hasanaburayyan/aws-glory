@@ -33,8 +33,9 @@ type GloryData struct {
 func (p Participant) HasCertificate(certificate Certificate) bool {
 	for _, cert := range p.Certs {
 		if cert.Cert.Name == certificate.Name && cert.Status == "Completed" {
-
-			return true
+			if cert.Cert.Level == certificate.Level {
+				return true
+			}
 		}
 	}
 	return false
@@ -43,7 +44,9 @@ func (p Participant) HasCertificate(certificate Certificate) bool {
 func (p Participant) InProgress(certificate Certificate) bool {
 	for _, cert := range p.Certs {
 		if cert.Cert.Name == certificate.Name && cert.Status == "In Progress" {
-			return true
+			if cert.Cert.Level == certificate.Level {
+				return true
+			}
 		}
 	}
 	return false
