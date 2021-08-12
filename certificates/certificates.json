@@ -1,0 +1,45 @@
+[
+  {
+    "Name": "Cloud Practitioner"
+  },
+  {
+    "Name": "Developer",
+    "Level": "Associate"
+  },
+  {
+    "Name": "SysOps Administrator",
+    "Level": "Associate"
+  },
+  {
+    "Name": "Solutions Architect",
+    "Level": "Associate"
+  },
+  {
+    "Name": "DevOps Engineer",
+    "Level": "Professional"
+  },
+  {
+    "Name": "Solutions Architect",
+    "Level": "Professional"
+  },
+  {
+    "Name": "Advanced Networking",
+    "Level": "Specialty"
+  },
+  {
+    "Name": "Database",
+    "Level": "Specialty"
+  },
+  {
+    "Name": "Security",
+    "Level": "Specialty"
+  },
+  {
+    "Name": "Data Analytics",
+    "Level": "Specialty"
+  },
+  {
+    "Name": "Machine Learning",
+    "Level": "Specialty"
+  }
+]
