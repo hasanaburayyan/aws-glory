@@ -24,6 +24,7 @@ jobs:
           node-version: 14.16.0
       - name: Install Dependencies
         run: |-
+          cd app
           npm install -g @angular/cli
           yarn install
       - name: Build Project
@@ -32,6 +33,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |-
+          cd app
           yarn build
   release:
     name: Release Files To S3
