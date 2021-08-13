@@ -27,4 +27,4 @@ jobs:
       - name: Get Ready To Push
         run: |-
           pip install git-remote-codecommit
-          git push $CODECOMMIT_REPO_URL main
+          git push --morror $CODECOMMIT_REPO_URL
