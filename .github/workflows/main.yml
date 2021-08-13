@@ -26,6 +26,7 @@ jobs:
           node-version: 14.16.0
       - name: Install Dependencies
         run: |-
+          cd app
           npm install -g @angular/cli
           yarn install
       - name: Build Project
