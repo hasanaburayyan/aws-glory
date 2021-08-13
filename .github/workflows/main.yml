@@ -54,6 +54,7 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Release
         run: |-
-          cd app/dist
+          cd app
+          ls -ltra
           aws s3 sync . s3://aws-glory
 
