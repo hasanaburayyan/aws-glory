@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  angular-env:
+    image: my-angular-env
+    build:
+      context: docker/angular-env
+  angular-app:
+    image: my-angular-app
+    build:
+      context: .

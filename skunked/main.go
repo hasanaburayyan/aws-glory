@@ -55,6 +55,12 @@ func (p Participant) InProgress(certificate Certificate) bool {
 func main() {
 	participants := getParticipants("participants")
 	certificates := getCertificates("certificates")
+	listenPort := func() string {
+		if os.Getenv("LISTEN_PORT") != "" {
+			return os.Getenv("LISTEN_PORT")
+		}
+		return "80"
+	}
 
 	gloryData:= GloryData{
 		Participants: participants,
@@ -69,8 +75,8 @@ func main() {
 		}
 	})
 
-	fmt.Println("Listening")
-	fmt.Println(http.ListenAndServe(":8080", nil))
+	fmt.Println("Listening on port: " + listenPort())
+	fmt.Println(http.ListenAndServe(":" + listenPort(), nil))
 }
 
 

@@ -2,8 +2,13 @@
 <module type="WEB_MODULE" version="4">
   <component name="Go" enabled="true" />
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/app/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/app/tmp" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="mdb-ui-kit" level="application" />
+    <orderEntry type="library" name="font-awesome" level="application" />
   </component>
 </module>
