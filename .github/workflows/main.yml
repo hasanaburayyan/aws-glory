@@ -25,5 +25,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Get Ready To Push
-        run: 
-          echo pip list
+        run:
+          pip list
