@@ -40,7 +40,7 @@ jobs:
         with:
           name: dist
           path: |
-            dist
+            app/dist
   release:
     name: Release Files To S3
     runs-on: ubuntu-latest
