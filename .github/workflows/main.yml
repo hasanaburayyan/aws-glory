@@ -6,16 +6,13 @@ name: Upload-To-Codecommit
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ main, ci-cd ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -23,14 +20,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Push To CodeCommit
+      - name: Setup Node JS
+        uses: actions/setup-node@v2.2.0
+        with:
+          node-version: 14.16.0
+      - name: Install Dependencies
+        run: |-
+          npm install -g @angular/cli
+          yarn install
+      - name: Build Project
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          CODECOMMIT_REPO_URL: ${{ secrets.CODECOMMIT_REPO_URL }}
         run: |-
-          pip install git-remote-codecommit
-          git remote add codecommit codecommit::us-east-1://aws-glory-mirrored-from-github
-          git checkout main
-          git push codecommit main
+          yarn build
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        run: ls -ltra
