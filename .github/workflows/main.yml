@@ -46,11 +46,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_DEFAULT_REGION }}
+          aws-region: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Release
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |-
           cd app/dist
+          aws s3 sync . s3://aws-glory
 
