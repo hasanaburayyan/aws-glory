@@ -23,8 +23,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Get Ready To Push
+      - name: Push To CodeCommit
         run: |-
           pip install git-remote-codecommit
-          git push --mirror $CODECOMMIT_REPO_URL
+          git remote add codecommit $CODECOMMIT_REPO_URL
+          git push codecommit main
