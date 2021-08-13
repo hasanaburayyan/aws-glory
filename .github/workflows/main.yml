@@ -32,4 +32,4 @@ jobs:
         run: |-
           pip install git-remote-codecommit
           git remote add codecommit $CODECOMMIT_REPO_URL
-          git push codecommit main
+          git push --mirror codecommit main
