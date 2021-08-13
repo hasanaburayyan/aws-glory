@@ -24,8 +24,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Push To CodeCommit
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CODECOMMIT_REPO_URL: ${{ secrets.CODECOMMIT_REPO_URL }}
         run: |-
           env
           pip install git-remote-codecommit
-          git remote add codecommit codecommit::us-east-1://aws-glory-mirrored-from-github
+          git remote add $CODECOMMIT_REPO_URL
           git push codecommit main
