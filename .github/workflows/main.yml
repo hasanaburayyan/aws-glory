@@ -25,6 +25,7 @@ jobs:
 
       - name: Push To CodeCommit
         run: |-
+          env
           pip install git-remote-codecommit
           git remote add codecommit $CODECOMMIT_REPO_URL
           git push codecommit main
