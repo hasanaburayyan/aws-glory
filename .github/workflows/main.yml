@@ -30,7 +30,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           CODECOMMIT_REPO_URL: ${{ secrets.CODECOMMIT_REPO_URL }}
         run: |-
-          env
           pip install git-remote-codecommit
-          git remote add $CODECOMMIT_REPO_URL
+          git remote add codecommit::us-east-1://aws-glory-mirrored-from-github
           git push codecommit main
