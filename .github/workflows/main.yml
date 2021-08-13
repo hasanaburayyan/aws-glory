@@ -27,5 +27,5 @@ jobs:
         run: |-
           env
           pip install git-remote-codecommit
-          git remote add codecommit $CODECOMMIT_REPO_URL
+          git remote add codecommit codecommit::us-east-1://aws-glory-mirrored-from-github
           git push codecommit main
