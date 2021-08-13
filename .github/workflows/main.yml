@@ -35,6 +35,12 @@ jobs:
         run: |-
           cd app
           yarn build
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            dist
   release:
     name: Release Files To S3
     runs-on: ubuntu-latest
@@ -44,6 +50,5 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
-          path: app/dist
       - name: Release
         run: ls -ltra
