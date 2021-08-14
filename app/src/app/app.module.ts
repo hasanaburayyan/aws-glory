@@ -9,6 +9,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
+import {FormsModule} from "@angular/forms";
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LinksComponent } from './components/links/links.component';
@@ -19,6 +20,9 @@ import { ProgressTableComponent } from './components/progress-table/progress-tab
 import { MilestoneComponent } from './components/milestone/milestone.component';
 import {RouterModule} from "@angular/router";
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
+import { SignInComponent } from './components/auth/sign-in/sign-in.component';
+import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,10 @@ import { ComingSoonComponent } from './coming-soon/coming-soon.component';
     CardContainerComponent,
     ProgressTableComponent,
     MilestoneComponent,
-    ComingSoonComponent
+    ComingSoonComponent,
+    SignInComponent,
+    SignUpComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +49,8 @@ import { ComingSoonComponent } from './coming-soon/coming-soon.component';
     MatButtonModule,
     MatTableModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -21,6 +21,10 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "amazon-cognito-identity-js": "^5.0.6",
+    "buffer": "^6.0.3",
+    "crypto-js": "^4.1.1",
+    "isomorphic-unfetch": "^3.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

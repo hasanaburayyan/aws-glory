@@ -1,0 +1,18 @@
+<form (submit)="onSignup(signupForm)" #signupForm="ngForm">
+  <label for="email"><b>First name</b></label>
+  <input type="text" ngModel #fnameInput="ngModel" [(ngModel)]="fname" placeholder="Enter First name" name="fname" id="fname" required>
+
+  <label for="email"><b>Last name</b></label>
+  <input type="text" ngModel #lnameInput="ngModel" [(ngModel)]="lname" placeholder="Enter Last name" name="lname" id="lname" required>
+
+  <label for="email"><b>Email</b></label>
+  <input type="text" ngModel #emailInput="ngModel" [(ngModel)]="email" placeholder="Enter Email" name="email" id="email" required>
+
+<!--  <label for="email"><b>Mobile No.</b></label>-->
+<!--  <input type="text" ngModel #mobileNoInput="ngModel" [(ngModel)]="mobileNo" placeholder="Enter mobile no" name="mobileNo" id="mobileNo" required>-->
+
+  <label for="psw"><b>Password</b></label>
+  <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Enter Password" id="psw" required>
+
+  <button type="submit" class="registerbtn">Register</button>
+</form>
