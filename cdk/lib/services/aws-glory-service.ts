@@ -2,6 +2,7 @@ import * as cdk from "@aws-cdk/core";
 import {EcrStack} from "../ecr-stack";
 import {S3Stack} from "../s3-stack";
 import {CodeCommitStack} from "../code-commit-stack";
+import {DynamodbStack} from "../dynamodb-stack";
 
 export class AwsGloryService extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string) {
@@ -14,6 +15,8 @@ export class AwsGloryService extends cdk.Construct {
         let ecrStack = new EcrStack(this, 'aws-glory-ecr-stack', {env: myAccount, stackName: 'aws-glory-ecr'})
 
         let s3Stack = new S3Stack(this, 'aws-glory-s3-stack', {env: myAccount, stackName: 'aws-glory-s3'})
+
+        let dynamoStack = new DynamodbStack(this, 'aws-glory-dynamodb-tables-stack', {env: myAccount, stackName: 'aws-glory-dynamodb-tables'})
 
     }
 }
