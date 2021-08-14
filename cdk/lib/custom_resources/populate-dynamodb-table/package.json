@@ -1,0 +1,14 @@
+{
+  "name": "populate-dynamodb-table",
+  "version": "1.0.0",
+  "description": "helper",
+  "main": "populate-dynamodb-tables.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hasan",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.26.0"
+  }
+}

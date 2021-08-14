@@ -1,5 +1,7 @@
 import * as cdk from "@aws-cdk/core";
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
+import * as lambda from '@aws-cdk/aws-lambda';
+import * as path from "path";
 
 export class DynamodbStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -22,5 +24,22 @@ export class DynamodbStack extends cdk.Stack {
             }));
         })
 
+        let populateLambda = new lambda.Function(this, 'aws-glory-lambda-populate-db', {
+            code: lambda.Code.fromAsset(
+                path.join(__dirname, './custom_resources/populate-dynamodb-table')
+            ),
+            handler: "populate-dynamodb-tables.handler",
+            runtime: lambda.Runtime.NODEJS_14_X,
+            memorySize: 128,
+        });
+
+        let customResource = new cdk.CustomResource(this, 'populate-databases', {
+            serviceToken: populateLambda.functionArn,
+            removalPolicy: cdk.RemovalPolicy.DESTROY
+        });
+
+        dbTables.forEach(table => {
+            table.grantFullAccess(populateLambda);
+        })
     }
 }
