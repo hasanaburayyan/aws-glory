@@ -21,6 +21,9 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@angular/animations": "^12.2.1",
+    "@angular/cdk": "^12.2.1",
+    "@angular/material": "^12.2.1",
     "@aws-cdk/aws-codebuild": "1.117.0",
     "@aws-cdk/aws-codedeploy": "1.117.0",
     "@aws-cdk/aws-codepipeline": "1.117.0",

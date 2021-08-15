@@ -1,0 +1,69 @@
+<!--<form (submit)="onSignup(signupForm)" #signupForm="ngForm">-->
+<!--  <label for="email"><b>First name</b></label>-->
+<!--  <input type="text" ngModel #fnameInput="ngModel" [(ngModel)]="fname" placeholder="Enter First name" name="fname" id="fname" required>-->
+
+<!--  <label for="email"><b>Last name</b></label>-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>email</mat-label>-->
+<!--    <input matInput ngModel #lnameInput="ngModel" [(ngModel)]="lname">-->
+<!--  </mat-form-field>-->
+<!--&lt;!&ndash;  <input type="text" ngModel #lnameInput="ngModel" [(ngModel)]="lname" placeholder="Enter Last name" name="lname" id="lname" required>&ndash;&gt;-->
+
+<!--  <label for="email"><b>Email</b></label>-->
+<!--  <input type="text" ngModel #emailInput="ngModel" [(ngModel)]="email" placeholder="Enter Email" name="email" id="email" required>-->
+
+<!--&lt;!&ndash;  <label for="email"><b>Mobile No.</b></label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" ngModel #mobileNoInput="ngModel" [(ngModel)]="mobileNo" placeholder="Enter mobile no" name="mobileNo" id="mobileNo" required>&ndash;&gt;-->
+
+<!--  <label for="psw"><b>Password</b></label>-->
+<!--  <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Enter Password" id="psw" required>-->
+
+<!--  <button type="submit" class="registerbtn">Register</button>-->
+<!--</form>-->
+
+<div class="content" style="justify-content: center">
+  <div class="form-container">
+    <form [formGroup]="loginForm" (submit)="submit()">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> First Name
+        </mat-label>
+        <input matInput formControlName="fname" required>
+        <mat-error *ngIf="loginForm.controls.fname.touched && loginForm.controls.fname.invalid">
+          <span *ngIf="loginForm.controls.fname!.errors!.required!">This field is mandatory.</span>
+          <span *ngIf="loginForm.controls.fname!.errors!.pattern!">This field is invalid.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Last Name
+        </mat-label>
+        <input matInput formControlName="lname" required>
+        <mat-error *ngIf="loginForm.controls.lname.touched && loginForm.controls.lname.invalid">
+          <span *ngIf="loginForm.controls.lname!.errors!.required!">This field is mandatory.</span>
+          <span *ngIf="loginForm.controls.lname!.errors!.pattern!">This field is invalid.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> E-mail
+        </mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+          <span *ngIf="loginForm.controls.email!.errors!.required!">This field is mandatory.</span>
+          <span *ngIf="loginForm.controls.email!.errors!.pattern!">This field is invalid.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Password
+        </mat-label>
+        <input matInput formControlName="password" type="password">
+        <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+          <span *ngIf="loginForm.controls.password!.errors!.required!">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" style="margin-left: 25%" type="submit">Sign Up!</button>
+    </form>
+  </div>
+</div>
