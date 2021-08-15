@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Participant} from "../components/models/participant";
+import {CognitoUserPool} from "amazon-cognito-identity-js";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,11 @@ export class ParticipantService {
   constructor() { }
 
   getAllParticipants(): Participant[] {
+    let poolData = {
+      UserPoolId: environment.cognitoUserPoolId,
+      ClientId: environment.cognitoAppClientId
+    };
+
     const p1: Participant = new Participant("Hasan", "Abu-Rayyan")
     const p2: Participant = new Participant("Neil", "Farmer")
     const p3: Participant = new Participant("Colin", "Moran")

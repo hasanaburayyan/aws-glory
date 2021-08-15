@@ -38,8 +38,10 @@ export class DynamodbStack extends cdk.Stack {
             removalPolicy: cdk.RemovalPolicy.DESTROY
         });
 
+
         dbTables.forEach(table => {
             table.grantFullAccess(populateLambda);
+            customResource.node.addDependency(table)
         })
     }
 }

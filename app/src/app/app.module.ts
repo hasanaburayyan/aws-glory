@@ -12,6 +12,7 @@ import {MatTableModule} from "@angular/material/table";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import {MatCardModule} from "@angular/material/card";
 import {MatLabel} from "@angular/material/form-field";
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -56,7 +57,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     FormsModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

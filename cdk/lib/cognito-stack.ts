@@ -37,6 +37,13 @@ export class CognitoStack extends cdk.Stack {
         let poolClient = pool.addClient('user-pool-client', {
             userPoolClientName: 'aws-glory-client',
             idTokenValidity: cdk.Duration.days(1),
+            readAttributes: new cognito.ClientAttributes().withStandardAttributes({
+                email: true,
+                givenName: true,
+                familyName: true,
+                fullname: true,
+                emailVerified: true
+            })
         })
 
 

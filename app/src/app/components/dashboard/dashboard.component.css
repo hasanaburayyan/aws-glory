@@ -1,0 +1,21 @@
+.edit-button {
+  margin-left: 5px;
+  justify-self: left;
+}
+
+.profile {
+  width: 800px;
+}
+
+mat-form-field {
+  width: 70%;
+}
+
+mat-card-header {
+  width: 50%;
+}
+
+.join-glory {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
