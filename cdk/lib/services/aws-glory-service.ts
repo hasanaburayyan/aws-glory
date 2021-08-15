@@ -17,7 +17,7 @@ export class AwsGloryService extends cdk.Construct {
 
         let s3Stack = new S3Stack(this, 'aws-glory-s3-stack', {env: myAccount, stackName: 'aws-glory-s3'})
 
-        let dynamoStack = new DynamodbStack(this, 'aws-glory-dynamodb-tables-stack', {env: myAccount, stackName: 'aws-glory-dynamodb-tables'})
+        let dynamoStack = new DynamodbStack(this, 'aws-glory-dynamodb-pop-stack', {env: myAccount, stackName: 'aws-glory-dynamodb-pop'})
 
         let cognitoStack = new CognitoStack(this, 'aws-glory-cognito-stack', {env: myAccount, stackName: 'aws-glory-cognito'})
 

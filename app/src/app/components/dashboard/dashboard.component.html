@@ -1,2 +1,69 @@
-<h1>This is the protected dashboard</h1>
-<button (click)="onLogout()">Log out</button>
+<h1>Welcome!</h1>
+<ng-template #editButton let-item>
+  <button *ngIf="!fieldEnabled(item.field)" mat-raised-button color="primary" class="edit-button" (click)="updateControls(true, item.field)">Edit</button>
+  <button *ngIf="fieldEnabled(item.field)" mat-raised-button color="warn" class="edit-button" (click)="updateControls(false, item.field)">Cancel</button>
+</ng-template>
+
+<div class="profile">
+<!--  TODO: Remove Warning message when editing profile is enabled-->
+  <p *ngIf="anyFieldEditable()" style="background: red">Editing Your Basic User Information Is Not Currently Supported</p>
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar><button (click)="notify('Avatar Icon Support Coming Soon...')" mat-button><img src="assets/anon-user.png"></button></div>
+      <span style="padding: 10px">
+        <mat-card-title>{{firstName + " " + lastName}}</mat-card-title>
+        <mat-card-subtitle>AWS Glory</mat-card-subtitle>
+      </span>
+    </mat-card-header>
+    <mat-card-content style="width: 100%">
+      <p>User Details:</p>
+      <form [formGroup]="updateForm" (submit)="update()">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> {{this.firstName}}
+          </mat-label>
+          <input matInput formControlName="fname" [placeholder]="firstName">
+          <mat-error *ngIf="updateForm.controls.fname.touched && updateForm.controls.fname.invalid">
+            <span *ngIf="updateForm.controls.fname!.errors!.required!">This field is mandatory.</span>
+            <span *ngIf="updateForm.controls.fname!.errors!.pattern!">This field is invalid.</span>
+          </mat-error>
+        </mat-form-field>
+        <ng-container [ngTemplateOutlet]="editButton" [ngTemplateOutletContext]="{$implicit: {field: 'fname'}}"></ng-container>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> {{this.lastName}}
+          </mat-label>
+          <input matInput formControlName="lname" required [placeholder]="lastName">
+          <mat-error *ngIf="updateForm.controls.lname.touched && updateForm.controls.lname.invalid">
+            <span *ngIf="updateForm.controls.lname!.errors!.required!">This field is mandatory.</span>
+            <span *ngIf="updateForm.controls.lname!.errors!.pattern!">This field is invalid.</span>
+          </mat-error>
+        </mat-form-field>
+        <ng-container [ngTemplateOutlet]="editButton" [ngTemplateOutletContext]="{$implicit: {field: 'lname'}}"></ng-container>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> {{this.email}}
+          </mat-label>
+          <input matInput formControlName="email"[placeholder]="email">
+          <mat-error *ngIf="updateForm.controls.email.touched && updateForm.controls.email.invalid">
+            <span *ngIf="updateForm.controls.email!.errors!.required!">This field is mandatory.</span>
+            <span *ngIf="updateForm.controls.email!.errors!.pattern!">This field is invalid.</span>
+          </mat-error>
+        </mat-form-field>
+        <ng-container [ngTemplateOutlet]="editButton" [ngTemplateOutletContext]="{$implicit: {field: 'email'}}"></ng-container>
+        <br>
+        <button *ngIf="anyFieldEditable()" mat-raised-button color="primary"  type="submit">Submit</button>
+      </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <span style="margin-left: 5px">You Are <span *ngIf="!isParticipant">Not </span>A Participant In The Hunt For AWS Glory<span *ngIf="isParticipant">!!</span></span>
+      <span *ngIf="!isParticipant">
+        <br>
+        <button mat-raised-button color="primary" (click)="notify('Coming Soon...')" class="join-glory">Join For Glory?</button>
+      </span>
+      <span *ngIf="isParticipant">
+        <br>
+        <button mat-raised-button color="primary" class="join-glory">View Your Progress!</button>
+      </span>
+    </mat-card-footer>
+  </mat-card>
+</div>

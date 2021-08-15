@@ -53,12 +53,10 @@ export class SignInComponent implements OnInit {
         Username: this.loginForm.value.email,
         Password: this.loginForm.value.password,
       });
-      console.log(authenticationDetails)
       let poolData = {
         UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
         ClientId: environment.cognitoAppClientId // Your client id here
       };
-      console.log(poolData);
 
       let userPool = new CognitoUserPool(poolData);
       let userData = { Username: this.loginForm.value.email, Pool: userPool };

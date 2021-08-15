@@ -9,6 +9,16 @@ export class AuthService {
 
   constructor() { }
 
+  logOut() {
+      let poolData = {
+        UserPoolId: environment.cognitoUserPoolId,
+        ClientId: environment.cognitoAppClientId
+      };
+      let userPool = new CognitoUserPool(poolData);
+      let cognitoUser = userPool.getCurrentUser();
+      cognitoUser?.signOut();
+  }
+
   isLoggedIn(): boolean {
     var isAuth = false;
 
@@ -17,8 +27,8 @@ export class AuthService {
       ClientId: environment.cognitoAppClientId
     };
 
-    var userPool = new CognitoUserPool(poolData);
-    var cognitoUser = userPool.getCurrentUser();
+    let userPool = new CognitoUserPool(poolData);
+    let cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
       cognitoUser.getSession((err: any, session: any) => {
@@ -26,6 +36,7 @@ export class AuthService {
           alert(err.message || JSON.stringify(err));
         }
         isAuth = session.isValid();
+
         console.log("Auth Session Is:")
         console.log(isAuth)
       })
