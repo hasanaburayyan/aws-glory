@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CognitoUserPool,CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import { NgForm, FormsModule } from '@angular/forms';
+import {NgForm, FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import {emailRegx} from "../../../commons/constants";
 
 interface formDataInterface {
   "name": string;
@@ -24,12 +25,37 @@ export class SignUpComponent implements OnInit {
   email:string = '';
   password:string = '';
 
-  constructor(private router: Router) { }
+  loginForm: FormGroup
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder
+    ) {
+    this.loginForm = this.formBuilder.group({
+      fname: [null, [Validators.required]],
+      lname: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(emailRegx)]],
+      password: [null, [Validators.required]]
+
+    })
+  }
 
   ngOnInit(): void {}
 
-  onSignup(form: NgForm){
-    if (form.valid) {
+  submit() {
+    if (!this.loginForm.valid) {
+      alert("Signup Failed!")
+      return;
+    }
+    this.fname = this.loginForm.value.fname;
+    this.lname = this.loginForm.value.lname;
+    this.email = this.loginForm.value.email;
+    this.password = this.loginForm.value.password;
+    this.Signup()
+  }
+
+  Signup(){
+    if (this.loginForm.valid) {
       this.isLoading = true;
       var poolData = {
         UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
@@ -43,14 +69,12 @@ export class SignUpComponent implements OnInit {
         "email": this.email,
       }
 
-      for (let key  in formData) {
-        let attrData = {
-          Name: key,
-          Value: formData[key]
-        }
-        let attribute = new CognitoUserAttribute(attrData);
-        attributeList.push(attribute)
-      }
+
+      attributeList.push(new CognitoUserAttribute({Name: 'name', Value: this.fname}));
+      attributeList.push(new CognitoUserAttribute({Name: 'family_name', Value: this.lname}));
+      attributeList.push(new CognitoUserAttribute({Name: 'email', Value: this.email}));
+
+
       userPool.signUp(this.email, this.password, attributeList, [], (
         err,
         result

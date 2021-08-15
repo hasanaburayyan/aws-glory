@@ -10,6 +10,11 @@ export class CognitoStack extends cdk.Stack {
             userPoolName: "aws-glory-participants",
             selfSignUpEnabled: true,
             removalPolicy: cdk.RemovalPolicy.DESTROY,
+            userVerification: {
+              emailStyle: cognito.VerificationEmailStyle.LINK,
+                emailSubject: "Complete AWS-GLORY Registration!",
+                emailBody: "Please Complete The Following Registration...\n {{##Verify Email##}}"
+            },
             passwordPolicy: {
                 minLength: 8,
                 requireLowercase: false,
@@ -17,13 +22,24 @@ export class CognitoStack extends cdk.Stack {
                 requireDigits: false,
                 requireSymbols: false
             },
-            accountRecovery: AccountRecovery.EMAIL_ONLY
+            accountRecovery: AccountRecovery.EMAIL_ONLY,
+            autoVerify: {
+                email: true
+            }
         });
+
+        pool.addDomain('aws-glory-domain', {
+            cognitoDomain: {
+                domainPrefix: 'glory'
+            }
+        })
 
         let poolClient = pool.addClient('user-pool-client', {
             userPoolClientName: 'aws-glory-client',
             idTokenValidity: cdk.Duration.days(1),
         })
+
+
 
         new cdk.CfnOutput(this, 'aws-glory-cog-user-pool', {
             value: pool.userPoolId

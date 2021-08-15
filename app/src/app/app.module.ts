@@ -9,7 +9,10 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import {MatLabel} from "@angular/material/form-field";
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LinksComponent } from './components/links/links.component';
@@ -39,7 +42,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ComingSoonComponent,
     SignInComponent,
     SignUpComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatTableModule,
     AppRoutingModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
