@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Participant} from "../components/models/participant";
 import {CognitoUserPool} from "amazon-cognito-identity-js";
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 interface ParticpantData {
@@ -29,7 +29,10 @@ export class ParticipantService {
     this.http.get<ParticpantData[]>(this.api.concat('dynamodb'),{
       params: {
         tableName: "aws-glory-participants"
-      }
+      },
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
     }).subscribe(parts => {
       parts.forEach(p => {
         let participantToAdd = new Participant(p.firstName, p.lastName);
