@@ -6,11 +6,11 @@ export class Participant {
   private _completedCertificates: Certificate[];
   private _inProgressCertificates: Certificate[];
 
-  constructor(firstName: string, lastName: string) {
+  constructor(firstName: string, lastName: string, completedCerts?: Certificate[], inProgressCerts?: Certificate[]) {
     this._firstName = firstName;
     this._lastName = lastName;
-    this._completedCertificates = [];
-    this._inProgressCertificates = [];
+    this._completedCertificates = completedCerts? completedCerts : [];
+    this._inProgressCertificates = inProgressCerts? inProgressCerts : [];
   }
 
   public set firstName(name: string) {

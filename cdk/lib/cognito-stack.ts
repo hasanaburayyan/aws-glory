@@ -25,7 +25,8 @@ export class CognitoStack extends cdk.Stack {
             accountRecovery: AccountRecovery.EMAIL_ONLY,
             autoVerify: {
                 email: true
-            }
+            },
+            signInCaseSensitive: false
         });
 
         pool.addDomain('aws-glory-domain', {

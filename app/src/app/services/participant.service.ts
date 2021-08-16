@@ -2,15 +2,45 @@ import { Injectable } from '@angular/core';
 import {Participant} from "../components/models/participant";
 import {CognitoUserPool} from "amazon-cognito-identity-js";
 import {environment} from "../../environments/environment";
+import {HttpClient, HttpRequest} from "@angular/common/http";
+import {Observable} from "rxjs";
+
+interface ParticpantData {
+  lastName: string,
+  firstName: string,
+  titles: string[],
+  id: string,
+  inProgressCertificates: string[],
+  completedCertificates: string[],
+  email?: string,
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParticipantService {
+  private api: string;
+  constructor(private http: HttpClient) {
+    this.api = environment.awsGloryRestApi;
+  }
 
-  constructor() { }
+  makeRequestForParticipants(): Participant[] {
+    let participants: Participant[] = [];
+    this.http.get<ParticpantData[]>(this.api.concat('dynamodb'),{
+      params: {
+        tableName: "aws-glory-participants"
+      }
+    }).subscribe(parts => {
+      parts.forEach(p => {
+        let participantToAdd = new Participant(p.firstName, p.lastName);
+        participants.push(participantToAdd)
+      })
+    });
+    return participants;
+  }
 
   getAllParticipants(): Participant[] {
+
     let poolData = {
       UserPoolId: environment.cognitoUserPoolId,
       ClientId: environment.cognitoAppClientId

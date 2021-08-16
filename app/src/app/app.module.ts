@@ -26,6 +26,7 @@ import {RouterModule} from "@angular/router";
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
@@ -58,7 +59,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

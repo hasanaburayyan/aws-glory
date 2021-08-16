@@ -1,0 +1,11 @@
+{
+  "/api/*": {
+    "target": "https://umkdiusrei.execute-api.us-east-1.amazonaws.com/prod/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

@@ -18,8 +18,9 @@ export class ProgressTableComponent implements OnInit {
   constructor(participantService: ParticipantService, certificateService: CertificateService) {
     this.certs = certificateService.getAllCertificates();
 
-    this.dataSource = participantService.getAllParticipants();
+    this.dataSource = participantService.makeRequestForParticipants();
     this.certs.forEach(c => {this.displayedColumns.push(c.name)})
+
   }
 
   ngOnInit(): void {

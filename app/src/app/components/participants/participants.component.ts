@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Participant} from "../models/participant";
+import {ParticipantService} from "../../services/participant.service";
 
 @Component({
   selector: 'app-participants',
@@ -8,8 +9,8 @@ import {Participant} from "../models/participant";
 })
 export class ParticipantsComponent implements OnInit {
   public participants: Participant[];
-  constructor() {
-    this.participants = populateParticipants();
+  constructor(private participantService: ParticipantService) {
+    this.participants = this.participantService.makeRequestForParticipants();
   }
 
   ngOnInit(): void {
