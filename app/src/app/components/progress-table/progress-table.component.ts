@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import {Participant} from "../models/participant";
 import {Certificate} from "../models/certificate";
-import {ParticipantService} from "../../services/participant.service";
 import {CertificateService} from "../../services/certificate.service";
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
   selector: 'app-progress-table',
   templateUrl: './progress-table.component.html',
-  styleUrls: ['./progress-table.component.css']
+  styleUrls: ['./progress-table.component.scss']
 })
 export class ProgressTableComponent implements OnInit {
   certs: Certificate[] = [];
   displayedColumns: string[] = ["Participant"];
   dataSource: Participant[] = [];
 
-  constructor(participantService: ParticipantService, certificateService: CertificateService) {
+  constructor(private activatedRoute: ActivatedRoute, certificateService: CertificateService) {
+    this.activatedRoute.data.subscribe(res => {
+      this.dataSource = res.participants;
+    });
     this.certs = certificateService.getAllCertificates();
-
-    this.dataSource = participantService.makeRequestForParticipants();
     this.certs.forEach(c => {this.displayedColumns.push(c.name)})
-
   }
 
   ngOnInit(): void {

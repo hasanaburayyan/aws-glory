@@ -3,6 +3,7 @@ import * as lambda from "@aws-cdk/aws-lambda";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as path from "path";
 import {DynamodbStack} from "./dynamodb-stack";
+import { rootPathTo } from "@aws-cdk/core";
 
 export class LambdaBackendStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, dynamoStack: DynamodbStack, props?: cdk.StackProps) {
@@ -25,11 +26,16 @@ export class LambdaBackendStack extends cdk.Stack {
         // REST API:
         let restApi = new apigateway.RestApi(this, 'aws-glory-api-rest', {
             restApiName: "aws-glory-api",
+            defaultCorsPreflightOptions: {
+                allowOrigins: apigateway.Cors.ALL_ORIGINS,
+                allowMethods: apigateway.Cors.ALL_METHODS
+            }
         });
 
-        const dynamoDbService: apigateway.Model = restApi.addModel(
-            'aws-glory-DynamoDBModel',
+        const dynamodbResponseModel: apigateway.Model = restApi.addModel(
+            'aws-glory-DynamoDB-mod',
             {
+                contentType: 'application/json',
                 schema: {
                     type: apigateway.JsonSchemaType.OBJECT,
                     properties: {
@@ -41,24 +47,25 @@ export class LambdaBackendStack extends cdk.Stack {
                 }
             });
 
-        restApi.root.addResource('dynamodb').addMethod('GET',
+        let dynamoResource = restApi.root.addResource('dynamodb');
+
+        dynamoResource.addMethod('GET',
             new apigateway.LambdaIntegration(participantServiceLambda),
             {
                 requestModels: {
-                    'application/json': dynamoDbService
+                    'application/json': dynamodbResponseModel
                 }
             }
         );
 
-        let res = new apigateway.Resource(this, 'aws-glory-api-dynamo', {
-            defaultMethodOptions: {
-                operationName: "ListTableContent",
-            },
-            parent: restApi.root,
-            pathPart: "dynamodbService"
-        })
+        let serviceResource = restApi.root.addResource('dynamodbService')
 
-        new apigateway.Method(this, 'aws-glory-test-method',{httpMethod: "GET", resource: res})
+        serviceResource.addMethod('GET', new apigateway.LambdaIntegration(participantServiceLambda))
+
+        // dynamoResource.addCorsPreflight({
+        //     allowMethods: apigateway.Cors.ALL_METHODS,
+        //     allowOrigins: apigateway.Cors.ALL_ORIGINS
+        // })
 
         dynamoStack.dbTables.forEach(table => {
             table.grantFullAccess(participantServiceLambda);

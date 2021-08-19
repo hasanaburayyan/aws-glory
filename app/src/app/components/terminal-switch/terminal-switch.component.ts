@@ -4,7 +4,7 @@ import {Participant} from "../models/participant";
 @Component({
   selector: 'app-terminal-switch',
   templateUrl: './terminal-switch.component.html',
-  styleUrls: ['./terminal-switch.component.css']
+  styleUrls: ['./terminal-switch.component.scss']
 })
 export class TerminalSwitchComponent implements OnInit {
   @Input() participants!: Participant[];

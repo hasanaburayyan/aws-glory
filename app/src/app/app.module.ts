@@ -22,12 +22,15 @@ import { ParticipantsComponent } from './components/participants/participants.co
 import { CardContainerComponent } from './components/card-container/card-container.component';
 import { ProgressTableComponent } from './components/progress-table/progress-table.component';
 import { MilestoneComponent } from './components/milestone/milestone.component';
-import {RouterModule} from "@angular/router";
+import {ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot} from "@angular/router";
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ParticipantResolver } from './resolvers/participants.resolver';
+import { Participant } from './components/models/participant';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     SignInComponent,
     SignUpComponent,
     DashboardComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ParticipantResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

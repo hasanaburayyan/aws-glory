@@ -1,3 +1,4 @@
+import { ParticipantData } from "src/app/services/participant.service";
 import {Certificate} from "./certificate";
 
 export class Participant {
@@ -11,6 +12,19 @@ export class Participant {
     this._lastName = lastName;
     this._completedCertificates = completedCerts? completedCerts : [];
     this._inProgressCertificates = inProgressCerts? inProgressCerts : [];
+  }
+
+  static fromParticipantData(pd: ParticipantData): Participant {
+    let participant = new Participant(pd.firstName, pd.lastName);
+    return participant;
+  }
+
+  static fromListOfParticipantData(pd: ParticipantData[]): Participant[] {
+    let participants: Participant[] = [];
+    pd.forEach(p => {
+      participants.push(this.fromParticipantData(p));
+    });
+    return participants;
   }
 
   public set firstName(name: string) {
