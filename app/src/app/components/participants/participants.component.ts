@@ -1,31 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {Participant} from "../models/participant";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-participants',
   templateUrl: './participants.component.html',
-  styleUrls: ['./participants.component.css']
+  styleUrls: ['./participants.component.scss']
 })
 export class ParticipantsComponent implements OnInit {
-  public participants: Participant[];
-  constructor() {
-    this.participants = populateParticipants();
+  public participants: Participant[] = [];
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.data.subscribe(res => {
+      this.participants = res.participants;
+    })
   }
-
+  
   ngOnInit(): void {
   }
 
-}
-function populateParticipants(): Participant[] {
-  let participants: Participant[] = [];
-
-  let p1: Participant = new Participant("Hasan", "Abu-Rayyan");
-  let p2: Participant = new Participant("Neil", "Farmer");
-  let p3: Participant = new Participant("Colin", "Moran");
-
-  participants.push(p1);
-  participants.push(p2);
-  participants.push(p3)
-
-  return participants;
 }

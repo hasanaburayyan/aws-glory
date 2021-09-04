@@ -5,7 +5,7 @@ import {MilestoneService} from "../../services/milestone.service";
 @Component({
   selector: 'app-milestone',
   templateUrl: './milestone.component.html',
-  styleUrls: ['./milestone.component.css']
+  styleUrls: ['./milestone.component.scss']
 })
 export class MilestoneComponent implements OnInit {
   public cards: Milestone[];

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  cognitoUserPoolId: "us-east-1_h0CddH362",
-  cognitoAppClientId: "6e4lpjjgc6482ek94g91r6knd8"
-
+  cognitoUserPoolId: "us-east-1_trlXTqkgW",
+  cognitoAppClientId: "3g4vo0pf3q40uq2tijvif8is5k",
+  awsGloryRestApi: "/api/"
 };
 
 /*

@@ -1,21 +1,37 @@
 import * as cdk from "@aws-cdk/core";
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as path from "path";
+
+interface tableConfig {
+    name: string,
+    partitionKey: string
+}
 
 export class DynamodbStack extends cdk.Stack {
+    public dbTables: dynamodb.Table[];
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        let tables = ["certificates", "participants", "milestones"]
+        let tables: tableConfig[] = [
+            {
+                name: "certificates",
+                partitionKey: "id"
+            },
+            {
+                name: "participants",
+                partitionKey: "email"
+            },
+            {
+                name: "milestones",
+                partitionKey: "id"
+            }]
 
-        let dbTables: dynamodb.Table[] = [];
+        this.dbTables =  [];
 
         tables.forEach(table => {
-            dbTables.push(new dynamodb.Table(this, "aws-glory-".concat(table), {
-                tableName: "aws-glory-".concat(table),
+            this.dbTables.push(new dynamodb.Table(this, "aws-glory-".concat(table.name), {
+                tableName: "aws-glory-".concat(table.name),
                 partitionKey: {
-                    name: 'id',
+                    name: table.partitionKey,
                     type: dynamodb.AttributeType.STRING
                 },
                 readCapacity: 5,
@@ -24,24 +40,5 @@ export class DynamodbStack extends cdk.Stack {
             }));
         })
 
-        let populateLambda = new lambda.Function(this, 'aws-glory-lambda-populate-db', {
-            code: lambda.Code.fromAsset(
-                path.join(__dirname, './custom_resources/populate-dynamodb-table')
-            ),
-            handler: "populate-dynamodb-tables.handler",
-            runtime: lambda.Runtime.NODEJS_14_X,
-            memorySize: 128,
-        });
-
-        let customResource = new cdk.CustomResource(this, 'populate-databases', {
-            serviceToken: populateLambda.functionArn,
-            removalPolicy: cdk.RemovalPolicy.DESTROY
-        });
-
-
-        dbTables.forEach(table => {
-            table.grantFullAccess(populateLambda);
-            customResource.node.addDependency(table)
-        })
     }
 }

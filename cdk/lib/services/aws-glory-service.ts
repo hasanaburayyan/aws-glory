@@ -4,6 +4,7 @@ import {S3Stack} from "../s3-stack";
 import {CodeCommitStack} from "../code-commit-stack";
 import {DynamodbStack} from "../dynamodb-stack";
 import {CognitoStack} from "../cognito-stack";
+import {LambdaBackendStack} from "../lambda-backend-stack";
 
 export class AwsGloryService extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string) {
@@ -20,6 +21,8 @@ export class AwsGloryService extends cdk.Construct {
         let dynamoStack = new DynamodbStack(this, 'aws-glory-dynamodb-pop-stack', {env: myAccount, stackName: 'aws-glory-dynamodb-pop'})
 
         let cognitoStack = new CognitoStack(this, 'aws-glory-cognito-stack', {env: myAccount, stackName: 'aws-glory-cognito'})
+
+        let lambdaBackend = new LambdaBackendStack(this, 'aws-glory-lambda-backend-stack', dynamoStack,  {env: myAccount, stackName: 'aws-glory-lambda-backend'})
 
     }
 }

@@ -6,7 +6,7 @@ import {MilestoneService} from "../../services/milestone.service";
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
   public welcomeTitle: string;
