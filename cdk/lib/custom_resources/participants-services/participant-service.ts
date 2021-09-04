@@ -6,10 +6,15 @@ interface Particpant {
     firstName: string,
     titles: string[],
     id: string,
-    inProgressCertificates: string[],
-    completedCertificates: string[],
+    inProgressCertificates: Certificate[],
+    completedCertificates: Certificate[],
     sumo: string,
     email?: string,
+}
+
+interface Certificate {
+    name: string,
+    level: string
 }
 
 export async function handler(event: any, context: any) {

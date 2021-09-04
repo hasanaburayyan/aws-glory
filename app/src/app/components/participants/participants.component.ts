@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Participant} from "../models/participant";
-import {ParticipantService} from "../../services/participant.service";
-import { ParticipantResolver } from 'src/app/resolvers/participants.resolver';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

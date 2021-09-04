@@ -22,6 +22,18 @@ export class LambdaBackendStack extends cdk.Stack {
             memorySize: 128
         });
 
+        let certificateServiceLambda: lambda.Function = new lambda.Function(this, 'aws-glory-certificate-service', {
+            code: lambda.Code.fromAsset(
+                path.join(__dirname, './custom_resources/certificate-services'),
+                {
+                    exclude: ["*.ts", "test.js"]
+                }
+            ),
+            handler: "certificate-service.handler",
+            runtime: lambda.Runtime.NODEJS_14_X,
+            memorySize: 128
+        })
+
 
         // REST API:
         let restApi = new apigateway.RestApi(this, 'aws-glory-api-rest', {
@@ -31,7 +43,8 @@ export class LambdaBackendStack extends cdk.Stack {
                 allowMethods: apigateway.Cors.ALL_METHODS
             }
         });
-
+        
+        // Models
         const dynamodbResponseModel: apigateway.Model = restApi.addModel(
             'aws-glory-DynamoDB-mod',
             {
@@ -45,8 +58,26 @@ export class LambdaBackendStack extends cdk.Stack {
                     },
                     required: ['tableName']
                 }
-            });
+            }
+        );
 
+        const certificateResponseModel: apigateway.Model = restApi.addModel(
+            'aws-glory-certificate-mod',
+            {
+                contentType: 'application/json',
+                schema: {
+                    type: apigateway.JsonSchemaType.OBJECT,
+                    properties: {
+                        certificateId: {
+                            type: apigateway.JsonSchemaType.STRING
+                        }
+                    },
+                    required: ['certificateId']
+                }
+            }
+        );
+
+        // Resources
         let dynamoResource = restApi.root.addResource('dynamodb');
 
         dynamoResource.addMethod('GET',
@@ -57,6 +88,17 @@ export class LambdaBackendStack extends cdk.Stack {
                 }
             }
         );
+
+        let certificateResource = dynamoResource.addResource('certificate');
+
+        certificateResource.addMethod('GET',
+            new apigateway.LambdaIntegration(certificateServiceLambda),
+            {
+                requestModels: {
+                    'application/json': certificateResponseModel
+                }
+            }
+        )
 
         let serviceResource = restApi.root.addResource('dynamodbService')
 
@@ -69,6 +111,7 @@ export class LambdaBackendStack extends cdk.Stack {
 
         dynamoStack.dbTables.forEach(table => {
             table.grantFullAccess(participantServiceLambda);
+            table.grantFullAccess(certificateServiceLambda);
         })
     }
 }

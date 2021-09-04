@@ -31,6 +31,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ParticipantResolver } from './resolvers/participants.resolver';
 import { Participant } from './components/models/participant';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { CertificateResolver } from './resolvers/certificates.resolver';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [ParticipantResolver],
+  providers: [ParticipantResolver, CertificateResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

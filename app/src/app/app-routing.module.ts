@@ -12,15 +12,16 @@ import {SignInComponent} from "./components/auth/sign-in/sign-in.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import { ParticipantsComponent } from './components/participants/participants.component';
 import { ParticipantResolver } from './resolvers/participants.resolver';
+import { CertificateResolver } from './resolvers/certificates.resolver';
 
 const routes: Routes = [
-  { path: 'leaderboards', resolve: {participants: ParticipantResolver}, component: ProgressTableComponent},
+  { path: 'leaderboards', resolve: {participants: ParticipantResolver, certificates: CertificateResolver}, component: ProgressTableComponent},
   { path: 'milestones', component: MilestoneComponent},
   { path: 'coming-soon', component: ComingSoonComponent},
   { path: 'signup', component: SignUpComponent},
   { path: 'signin', component: SignInComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: '**', resolve: {participants: ParticipantResolver}, component: WelcomeComponent }
+  { path: '**', resolve: {participants: ParticipantResolver, certificates: CertificateResolver}, component: WelcomeComponent }
 ]
 
 @NgModule({

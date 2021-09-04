@@ -15,12 +15,38 @@ export class ProgressTableComponent implements OnInit {
   displayedColumns: string[] = ["Participant"];
   dataSource: Participant[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, certificateService: CertificateService) {
+  constructor(private activatedRoute: ActivatedRoute, private certificateService: CertificateService) {
     this.activatedRoute.data.subscribe(res => {
-      this.dataSource = res.participants;
+      let participants = res.participants as Participant[];
+      let certificates = res.certificates as Certificate[];
+      participants.sort((a: Participant, b: Participant) => {
+        if (a.unresolvedCompletedCertificates.length < b.unresolvedCompletedCertificates.length) {
+          console.log(`${a.firstName} is less than ${b.firstName}`)
+          return -1;
+        }
+        if (a.unresolvedCompletedCertificates.length > b.unresolvedCompletedCertificates.length) {
+          console.log(`${a.firstName} is greater than ${b.firstName}`)
+          return 1;
+        }
+        console.log(`${a.firstName} is equal to ${b.firstName}`)
+        return 0;
+      })
+      this.dataSource = participants.reverse();
+      certificates.forEach(cert => {
+        this.certs.push(cert);
+      });
+      this.certs.sort((a: Certificate, b: Certificate) => {
+        if (a.order < b.order) {
+          return -1;
+        }
+        if (a.order > b.order) {
+          return 1;
+        }
+        return 0;
+      })
+      console.log(res)
     });
-    this.certs = certificateService.getAllCertificates();
-    this.certs.forEach(c => {this.displayedColumns.push(c.name)})
+    this.certs.forEach(c => this.displayedColumns.push(c.certificateName))
   }
 
   ngOnInit(): void {

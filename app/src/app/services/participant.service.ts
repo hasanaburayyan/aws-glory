@@ -4,14 +4,15 @@ import {CognitoUserPool} from "amazon-cognito-identity-js";
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
+import { CertificateData } from './certificate.service';
 
 export interface ParticipantData {
   lastName: string,
   firstName: string,
   titles: string[],
   id: string,
-  inProgressCertificates: string[],
-  completedCertificates: string[],
+  inProgressCertificates: CertificateData[],
+  completedCertificates: CertificateData[],
   email?: string,
 }
 
@@ -44,7 +45,9 @@ export class ParticipantService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
-    }).subscribe(participantData => {participants = Participant.fromListOfParticipantData(participantData)});
+    }).subscribe(async participantData => {
+      participants = await Participant.fromListOfParticipantData(participantData)
+    });
     
     return participants;
   }

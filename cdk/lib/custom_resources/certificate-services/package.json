@@ -1,0 +1,15 @@
+{
+  "name": "user-pool-services",
+  "version": "1.0.0",
+  "description": "",
+  "main": "user-pool-service.js",
+  "scripts": {
+    "test": "tsc && node test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.26.0",
+    "aws-sdk": "^2.968.0"
+  }
+}
