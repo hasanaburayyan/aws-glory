@@ -66,12 +66,7 @@ export class LambdaBackendStack extends cdk.Stack {
             {
                 contentType: 'application/json',
                 schema: {
-                    type: apigateway.JsonSchemaType.OBJECT,
-                    properties: {
-                        tableName: {
-                            type: apigateway.JsonSchemaType.STRING
-                        }
-                    },
+                    type: apigateway.JsonSchemaType.OBJECT
                 }
             }
         );

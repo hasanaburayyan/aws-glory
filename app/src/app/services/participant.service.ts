@@ -56,8 +56,11 @@ export class ParticipantService {
   updateParticipant(participantToUpdate: Participant): Observable<ParticipantUpdate> {
     return this.http.post<ParticipantUpdate>(this.api.concat('dynamodb'), {
       participant: participantToUpdate
-    }
-    )
+    }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
   getAllParticipants(): Participant[] {
