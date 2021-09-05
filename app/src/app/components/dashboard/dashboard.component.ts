@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {CognitoUserAttribute, CognitoUserPool} from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
 import {AuthService} from "../../services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {emailRegx} from "../../commons/constants";
+import { Participant } from '../models/participant';
+import { SignedInUser } from 'src/app/resolvers/current-user.resolver';
+import { Card } from '../models/card';
+import { CertificateData } from 'src/app/services/certificate.service';
+import { fromCertificateData } from '../models/certificate';
+import { ParticipantService } from 'src/app/services/participant.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,18 +25,53 @@ export class DashboardComponent implements OnInit {
   public updateForm: FormGroup;
   public editMode: boolean;
 
-  public isParticipant: boolean;
+  public participantInfo?: Participant;
+  public participantList?: Participant[];
+  public isParticipant: boolean = false;
+  public displayTable: boolean = false;
+  public addNewCert: boolean = false;
+  public certCards: Card[];
+  public titleCards: Card[];
+  public addCertCards: Card[];
 
 
-  constructor(private router: Router,private authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private participantService: ParticipantService, private authService: AuthService, private formBuilder: FormBuilder) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
     this.editMode = false;
-    this.isParticipant = false;
-
-    this.getAttrs();
-
+    this.certCards = [];
+    this.titleCards = [];
+    this.addCertCards = [];
+    this.activatedRoute.data.subscribe(data => {
+      let user = data.currentUser as SignedInUser;
+      let certs = data.certificates as CertificateData[];
+      this.firstName = user.firstName!
+      this.lastName = user.lastName!
+      this.email = user.email!
+      console.log(`USER DATA: ${user.participantData}`)
+      this.participantInfo = user.participantData
+      if (user.participantData) {
+        this.participantList = [user.participantData];
+        this.isParticipant = true;
+      }
+      certs.forEach(c => {this.addCertCards.push(
+        {
+          text: c.certificateName,
+          isLink: false,
+          certificate: fromCertificateData(c),
+          runFunction: function () {
+            console.log(`Trying to add ${c.certificateName} to participant: ${user.participantData!.firstName}`);
+            user.participantData!.addCompletedCertificate(c);
+            return true;
+          }
+        }
+      )})
+      this.participantService.updateParticipant(this.participantInfo!).subscribe(x => {
+        console.log(JSON.stringify(x));
+      });
+    })
+    
     this.updateForm = this.formBuilder.group({
         fname: [this.firstName, [Validators.required]],
         lname: [this.lastName, [Validators.required]],
@@ -102,7 +143,6 @@ export class DashboardComponent implements OnInit {
     };
     let userPool = new CognitoUserPool(poolData);
     let cognitoUser = userPool.getCurrentUser();
-
     cognitoUser?.getSession((error: any, session: any) => {
       if (error) {
         alert(error)
@@ -158,40 +198,61 @@ export class DashboardComponent implements OnInit {
     alert(message)
   }
 
-  getAttrs(): void {
-
-    let poolData = {
-      UserPoolId: environment.cognitoUserPoolId,
-      ClientId: environment.cognitoAppClientId
-    };
-    let userPool = new CognitoUserPool(poolData);
-    let cognitoUser = userPool.getCurrentUser();
-
-    cognitoUser?.getSession((err: any, session: any) => {
-      if (err) {
-        alert(err.message || JSON.stringify(err));
-      }
-      let isAuth = session.isValid();
-      if (isAuth) {
-        cognitoUser?.getUserAttributes((err, userAttributes) => {
-          userAttributes?.forEach(attr => {
-            let attrName = attr.getName();
-            let attrValue = attr.getValue();
-            switch (attrName) {
-              case "family_name":
-                this.lastName = attrValue
-                break
-              case "email":
-                this.email = attrValue
-                break
-              case "name":
-                this.firstName = attrValue
-                break
-            }
-          })
-        })
-      }
+  toggleTable(): void {
+    this.certCards = [];
+    this.titleCards = [];
+    this.participantService.updateParticipant(this.participantInfo!).subscribe(x => {
+      console.log(JSON.stringify(x));
+    });
+    
+    this.participantInfo?.completedCertificates.forEach(cert => {
+      this.certCards.push(
+        {
+          text: cert.certificateName,
+          isLink: false,
+          image: cert.id
+        }
+      )
     })
+    this.participantInfo?.titles.forEach(title => {
+      this.titleCards.push(
+        {
+          text: title.name,
+          isLink: false,
+          image: 'crown'
+        }
+      )
+    })
+    this.displayTable = !this.displayTable
+    this.addNewCert = false;
+    console.log(this.participantList)
+  }
+
+  async getParticipantsToList(): Promise<Participant[]> {
+    this.activatedRoute.data.subscribe(data => {
+      let user = data as SignedInUser;
+      this.participantInfo = user.participantData
+      if (user.participantData) {
+        return [user.participantData]
+      }
+      let emptyList: Participant[] = []
+      return emptyList;
+    });
+    return new Promise(x => {
+      return null;
+    });
+  }
+
+  addCertMenu() {
+    let missingCertsCards: Card[] = [];
+    this.addCertCards.forEach(addC => {
+      if (!this.participantInfo?.hasCertificate(addC.certificate!)) {
+        missingCertsCards.push(addC);
+      }
+    });
+    this.displayTable = false;
+    this.addNewCert = true;
+    this.addCertCards = missingCertsCards;
   }
 
   onLogout(): void {

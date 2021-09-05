@@ -62,8 +62,28 @@
       </span>
       <span *ngIf="isParticipant">
         <br>
-        <button mat-raised-button color="primary" class="join-glory">View Your Progress!</button>
+        <button mat-raised-button (click)="toggleTable()" color="primary" class="join-glory">
+          <span *ngIf="!displayTable">View Your Progress!</span>
+          <span *ngIf="displayTable">Close Progress Table</span>
+        </button>
+        <button *ngIf="displayTable" mat-raised-button (click)="addCertMenu()" color="success" style="margin-left: 60%;" class="join-glory">
+          <span>Add Certificate</span>
+        </button>
       </span>
     </mat-card-footer>
   </mat-card>
+  <div class="content" *ngIf="addNewCert">
+    <h3>What Cert Would You Like To Add?</h3>
+    <app-card-container [cards]="addCertCards"></app-card-container>
+  </div>
+  <div class="content" *ngIf="displayTable">
+    <h3>Your Certs!</h3>
+    <app-card-container [cards]="certCards"></app-card-container>
+    <h3>Your Titles!</h3>
+    <app-card-container [cards]="titleCards"></app-card-container>
+  </div>
 </div>
+
+
+
+

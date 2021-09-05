@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {Participant} from "../models/participant";
 import {Certificate} from "../models/certificate";
 import {CertificateService} from "../../services/certificate.service";
@@ -20,18 +20,20 @@ export class ProgressTableComponent implements OnInit {
       let participants = res.participants as Participant[];
       let certificates = res.certificates as Certificate[];
       participants.sort((a: Participant, b: Participant) => {
-        if (a.unresolvedCompletedCertificates.length < b.unresolvedCompletedCertificates.length) {
+        if (a.completedCertificates.length < b.completedCertificates.length) {
           console.log(`${a.firstName} is less than ${b.firstName}`)
           return -1;
         }
-        if (a.unresolvedCompletedCertificates.length > b.unresolvedCompletedCertificates.length) {
+        if (a.completedCertificates.length > b.completedCertificates.length) {
           console.log(`${a.firstName} is greater than ${b.firstName}`)
           return 1;
         }
         console.log(`${a.firstName} is equal to ${b.firstName}`)
         return 0;
       })
-      this.dataSource = participants.reverse();
+      let displayableParticipants = participants.reverse();
+
+      this.dataSource = displayableParticipants;
       certificates.forEach(cert => {
         this.certs.push(cert);
       });

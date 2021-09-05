@@ -9,11 +9,28 @@ import { CertificateData } from './certificate.service';
 export interface ParticipantData {
   lastName: string,
   firstName: string,
-  titles: string[],
+  username: string,
+  titles: TitleData[],
   id: string,
   inProgressCertificates: CertificateData[],
   completedCertificates: CertificateData[],
-  email?: string,
+  email: string,
+}
+
+export interface TitleData {
+  name: string
+  prerequisite: string[]
+  id: string,
+  order: number
+}
+
+export interface ParticipantUpdate {
+  statusCode: number
+  headers: {
+    "Content-Type": string
+    "Access-Control": string
+  }
+  body: ParticipantData
 }
 
 @Injectable({
@@ -34,6 +51,13 @@ export class ParticipantService {
         'Content-Type': 'application/json'
       })
     });
+  }
+
+  updateParticipant(participantToUpdate: Participant): Observable<ParticipantUpdate> {
+    return this.http.post<ParticipantUpdate>(this.api.concat('dynamodb'), {
+      participant: participantToUpdate
+    }
+    )
   }
 
   getAllParticipants(): Participant[] {

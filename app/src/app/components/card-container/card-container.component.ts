@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { ParticipantService } from 'src/app/services/participant.service';
 import {Card} from "../models/card";
 import {Milestone} from "../models/milestone";
+import { Participant } from '../models/participant';
 
 @Component({
   selector: 'app-card-container',
@@ -9,7 +11,7 @@ import {Milestone} from "../models/milestone";
 })
 export class CardContainerComponent implements OnInit {
   @Input() cards!: Card[];
-  constructor() {
+  constructor(private participantService: ParticipantService) {
   }
 
   ngOnInit(): void {

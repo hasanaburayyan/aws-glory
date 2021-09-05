@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { Participant } from "../components/models/participant";
 import { ParticipantData, ParticipantService } from "../services/participant.service";
 import { CertificateService } from "../services/certificate.service";
-import { fromCertificateData } from "../components/models/certificate";
 
 @Injectable({
     providedIn: 'root'
@@ -19,12 +18,7 @@ export class ParticipantResolver implements Resolve<Participant[]| void> {
             let participantData = <ParticipantData[]>d;
             participantData.forEach(pd => {
                 let participant = Participant.fromParticipantData(pd);
-                participant.unresolvedCompletedCertificates.forEach(uc => {
-                    this.certificateService.getCertificate(uc).subscribe(d => {
-                        participant.addCompletedCertificate(fromCertificateData(d))
-                        return d;
-                    });
-                });
+                console.log(`NEW Participant Data: ${JSON.stringify(participant.titles)}`)
                 participants.push(participant);
 
             })

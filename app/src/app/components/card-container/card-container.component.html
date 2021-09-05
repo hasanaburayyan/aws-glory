@@ -2,12 +2,13 @@
   <div *ngFor="let card of cards">
 
     <ng-template #cardContents>
-      <span>
+      <img *ngIf="card.image" style="height: 50px; width: 50px;" src="../../../assets/{{card.image}}.png">
+      <button mat-raised-button style="align-content: flex-end;" color="primary" *ngIf="card.runFunction" (click)="card.runFunction();">Add</button>
+      <span style="margin-left: 10%;" >
         {{card.text}}
         <p *ngIf="isMilestone(card)">({{getMilestoneAchievement(card)}})</p>
       </span>
     </ng-template>
-
     <a *ngIf="card.isLink; else elseBlock" class="card" target="_blank" href="{{card.linkURL}}" rel="noopener">
       <ng-container *ngTemplateOutlet="cardContents"></ng-container>
     </a>

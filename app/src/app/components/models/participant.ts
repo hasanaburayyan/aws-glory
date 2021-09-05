@@ -1,27 +1,29 @@
-import { CertificateService } from "src/app/services/certificate.service";
-import { ParticipantData } from "src/app/services/participant.service";
-import {Certificate, fromListOfCertificateData} from "./certificate";
+import { CertificateData, CertificateService } from "src/app/services/certificate.service";
+import { ParticipantData, TitleData } from "src/app/services/participant.service";
+import {Certificate, fromCertificateData, fromListOfCertificateData} from "./certificate";
 
 export class Participant {
   private _firstName: string;
   private _lastName: string;
-  private _unresolvedCompletedCertificates: string[];
-  private _unresolvedInProgressCertificates: string[];
+  private _email: string
+  private _username: string;
   
   private _completedCertificates: Certificate[];
   private _inProgressCertificates: Certificate[];
+  private _titles: TitleData[];
 
-  constructor(firstName: string, lastName: string, completedCerts: string[], inProgressCerts: string[]) {
+  constructor(firstName: string, lastName: string, email: string, username: string,  completedCerts: CertificateData[], inProgressCerts: CertificateData[], titles: TitleData[]) {
     this._firstName = firstName;
     this._lastName = lastName;
-    this._completedCertificates = [];
-    this._inProgressCertificates = [];
-    this._unresolvedCompletedCertificates = completedCerts;
-    this._unresolvedInProgressCertificates = inProgressCerts;
+    this._email = email;
+    this._username = username;
+    this._completedCertificates = fromListOfCertificateData(completedCerts);
+    this._inProgressCertificates = fromListOfCertificateData(inProgressCerts);
+    this._titles = titles;
   }
 
   static fromParticipantData(pd: ParticipantData): Participant {
-    let participant = new Participant(pd.firstName, pd.lastName, fromListOfCertificateData(pd.completedCertificates), fromListOfCertificateData(pd.inProgressCertificates));
+    let participant = new Participant(pd.firstName, pd.lastName, pd.email, pd.username, pd.completedCertificates, pd.inProgressCertificates, pd.titles);
     return participant;
   }
 
@@ -41,6 +43,14 @@ export class Participant {
     return this._firstName;
   }
 
+  public set username(name: string) {
+    this._username = name;
+  }
+
+  public get username(): string {
+    return this._username;
+  }
+
   public set lastName(name: string) {
     this._lastName = name;
   }
@@ -48,12 +58,24 @@ export class Participant {
   public get lastName(): string {
     return this._lastName;
   }
-  public get unresolvedInProgressCertificates(): string[] {
-    return this._unresolvedInProgressCertificates;
+
+  public set email(email: string) {
+    this._email = email;
   }
-  public set unresolvedInProgressCertificates(value: string[]) {
-    this._unresolvedInProgressCertificates = value;
+
+  public get email(): string {
+    return this._email;
   }
+
+  public get titles(): TitleData[] {
+    return this._titles;
+  }
+
+  public set titles(titles: TitleData[]) {
+    this._titles = titles;
+  }
+
+
   public set completedCertificates(certificates: Certificate[]) {
     this._completedCertificates = certificates;
   }
@@ -61,12 +83,7 @@ export class Participant {
   public get completedCertificates(): Certificate[] {
     return this._completedCertificates;
   }
-  public get unresolvedCompletedCertificates(): string[] {
-    return this._unresolvedCompletedCertificates;
-  }
-  public set unresolvedCompletedCertificates(value: string[]) {
-    this._unresolvedCompletedCertificates = value;
-  }
+
   public set inProgressCertificates(certificates: Certificate[]) {
     this._inProgressCertificates = certificates;
   }

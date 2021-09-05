@@ -7,13 +7,16 @@ export interface Certificate {
   order: number
 }
 
-export function fromListOfCertificateData(cd: CertificateData[]): string[] {
-  let certs: string[] = []
+export function fromListOfCertificateData(cd: CertificateData[]): Certificate[] {
+  let certs: Certificate[] = []
   cd.forEach(cert => {
-    console.log(`from function: ${cert}`)
-    certs.push(cert.toString());
+    certs.push({
+      certificateName: cert.certificateName,
+      id: cert.id,
+      level: cert.level,
+      order: cert.order
+    });
   })
-  // console.log(`CERTS TO BE ADDED: ${JSON.stringify(certs)}`)
   return certs;
 }
 

@@ -61,6 +61,21 @@ export class LambdaBackendStack extends cdk.Stack {
             }
         );
 
+        const participantResponseModel: apigateway.Model = restApi.addModel(
+            'aws-glory-participant-mod',
+            {
+                contentType: 'application/json',
+                schema: {
+                    type: apigateway.JsonSchemaType.OBJECT,
+                    properties: {
+                        tableName: {
+                            type: apigateway.JsonSchemaType.STRING
+                        }
+                    },
+                }
+            }
+        );
+
         const certificateResponseModel: apigateway.Model = restApi.addModel(
             'aws-glory-certificate-mod',
             {
@@ -85,6 +100,15 @@ export class LambdaBackendStack extends cdk.Stack {
             {
                 requestModels: {
                     'application/json': dynamodbResponseModel
+                }
+            }
+        );
+
+        dynamoResource.addMethod('POST',
+            new apigateway.LambdaIntegration(participantServiceLambda),
+            {
+                requestModels: {
+                    'application/json':  participantResponseModel
                 }
             }
         );

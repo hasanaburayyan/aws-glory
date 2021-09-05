@@ -36,9 +36,6 @@ export class AuthService {
           alert(err.message || JSON.stringify(err));
         }
         isAuth = session.isValid();
-
-        console.log("Auth Session Is:")
-        console.log(isAuth)
       })
     }
     return isAuth;

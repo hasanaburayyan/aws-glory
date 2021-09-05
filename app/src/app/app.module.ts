@@ -32,6 +32,8 @@ import { ParticipantResolver } from './resolvers/participants.resolver';
 import { Participant } from './components/models/participant';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CertificateResolver } from './resolvers/certificates.resolver';
+import { CurrentUserResolver } from './resolvers/current-user.resolver';
+import { AchievementsTableComponent } from './components/achievements-table/achievements-table.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { CertificateResolver } from './resolvers/certificates.resolver';
     SignUpComponent,
     DashboardComponent,
     SpinnerComponent,
+    AchievementsTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,7 @@ import { CertificateResolver } from './resolvers/certificates.resolver';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [ParticipantResolver, CertificateResolver],
+  providers: [ParticipantResolver, CertificateResolver, CurrentUserResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
