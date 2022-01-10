@@ -5,5 +5,5 @@ import { EcrStack } from '../lib/ecr-stack';
 import {AwsGloryService} from "../lib/services/aws-glory-service";
 
 const app = new cdk.App();
-
+// Added some silly comments
 new AwsGloryService(app, 'aws-glory-app')
